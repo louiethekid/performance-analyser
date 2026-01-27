@@ -1,7 +1,7 @@
 📊 Performance Analyser: Dashboard Interativo de Marketing
 Este projeto é uma solução Full-Stack Data focada em marketing digital e manutenção de Market Share. A aplicação transforma dados brutos de campanhas em um dashboard interativo, automatizando a análise de performance e o cálculo de métricas essenciais para a tomada de decisão.
 
-<img width="2032" height="1192" alt="Captura de Tela 2026-01-23 às 12 21 44" src="https://github.com/user-attachments/assets/d28424f1-3ed6-4551-8b47-ea7aff1ca4b0" />
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](performance-analyser-2026.streamlit.app)
 
 
 🎯 Objetivo
