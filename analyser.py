@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # 1. Carregar os dados
 df = pd.read_csv('campanhas.csv')
@@ -19,10 +20,14 @@ top_performers = df[df['ROAS'] > 4]
 print("--- RELATÓRIO DE PERFORMANCE ---")
 print(df[['nome_campanha', 'ROAS', 'CTR', 'CPA']])
 print("\n--- CAMPANHAS PARA ESCALAR (MARKET SHARE) ---")
-print(top_performers['PMAXING WORLDVIEW'])
+print(top_performers['nome_campanha'])
+# 4. Gerar Gráfico de Barras
+df.plot(kind='bar', x='nome_campanha', y='ROAS', color='skyblue')
+plt.title('Performance: ROAS por Campanha')
+plt.ylabel('Retorno (ROAS)')
+plt.xticks(rotation=45)
+plt.tight_layout()
 
-# Adicionar todos os arquivos (exceto o que estiver no .gitignore)
-git add .
-
-# Criar o ponto de restauração
-git commit -m "feat: calculo de ROAS, CTR e CPA concluido"
+# Salva a imagem na pasta do projeto
+plt.savefig('resultado_performance.png')
+print("\nGráfico salvo como 'resultado_performance.png'!")

@@ -3,9 +3,42 @@ import pandas as pd
 
 # Configuração da Página
 st.set_page_config(page_title="Performance Analyser", layout="wide")
+st.title("📊 Performance Analyser Dashboard")
 
-# 1. Carregar Dados
-df = pd.read_csv('campanhas.csv')
+# 1. Uploader de Arquivo na Sidebar
+st.sidebar.header("Upload de Dados")
+uploaded_file = st.sidebar.file_uploader("Arraste seu CSV de campanhas aqui", type=["csv"])
+
+if uploaded_file is not None:
+    # Carrega o arquivo enviado pelo usuário
+    df = pd.read_csv(uploaded_file)
+    
+    # --- LÓGICA DE CÁLCULO (O core do seu app) ---
+    df['ROAS'] = df['receita'] / df['investimento']
+    df['CPA'] = df['investimento'] / df['conversoes']
+    
+    # Sidebar: Filtro de Campanha (Dinâmico com o novo arquivo)
+    st.sidebar.divider()
+    campanhas_selecionadas = st.sidebar.multiselect(
+        "Filtrar por Campanha",
+        options=df['nome_campanha'].unique(),
+        default=df['nome_campanha'].unique()
+    )
+    
+    df_filtrado = df[df['nome_campanha'].isin(campanhas_selecionadas)]
+
+    # --- MÉTRICAS E GRÁFICOS ---
+    # (O restante do código de colunas e abas que já tínhamos...)
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        roas_medio = df_filtrado['ROAS'].mean()
+        st.metric(label="ROAS Médio", value=f"{roas_medio:.2f}x")
+    # ... (Siga com o resto do código de métricas e abas aqui)
+    
+else:
+    # Mensagem caso o usuário ainda não tenha subido nada
+    st.info("👋 Bem-vindo! Por favor, faça o upload de um arquivo CSV na barra lateral para começar a análise.")
+    st.image("https://via.placeholder.com/800x400.png?text=Aguardando+Dados+para+Análise")
 
 # 2. Lógica de Performance (KPIs)
 df['ROAS'] = df['receita'] / df['investimento']
@@ -53,3 +86,4 @@ with tab1:
 with tab2:
     st.subheader("Detalhamento dos Dados")
     st.dataframe(df_filtrado, use_container_width=True)
+
